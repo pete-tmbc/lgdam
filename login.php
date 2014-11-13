@@ -187,7 +187,7 @@ if (!hook("replaceloginform")) {
   
   
   <?php if ($error!="") { ?><div class="FormIncorrect"><?php echo $error?></div><?php } ?>
-  <form id="loginform" method="post" <?php if (!$login_autocomplete) { ?>AUTOCOMPLETE="OFF"<?php } ?>>
+  <form id="loginform" method="post" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?>>
   <input type="hidden" name="langupdate" id="langupdate" value="">  
   <input type="hidden" name="url" value="<?php echo htmlspecialchars($url)?>">
 
@@ -205,13 +205,13 @@ if (!hook("replaceloginform")) {
 
 		<div class="Question">
 			<label for="username"><?php echo $lang["username"]?> </label>
-			<input type="text" name="username" id="username" class="stdwidth" <?php if (!$login_autocomplete) { ?>AUTOCOMPLETE="OFF"<?php } ?> value="<?php echo htmlspecialchars(getval("username","")) ?>" />
+			<input type="text" name="username" id="username" class="stdwidth" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?> value="<?php echo htmlspecialchars(getval("username","")) ?>" />
 			<div class="clearerleft"> </div>
 		</div>
 		
 		<div class="Question">
 			<label for="password"><?php echo $lang["password"]?> </label>
-			<input type="password" name="password" id="password" class="stdwidth" <?php if (!$login_autocomplete) { ?>AUTOCOMPLETE="OFF"<?php } ?> />
+			<input type="password" name="password" id="password" class="stdwidth" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?> />
 			 <div id="capswarning"><?php echo $lang["caps-lock-on"]; ?></div>
 			<div class="clearerleft"> </div>
 		</div>

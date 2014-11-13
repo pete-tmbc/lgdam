@@ -634,9 +634,9 @@ if (!$basic_simple_search)
 
   
   <form id="form1" method="post" action="<?php echo $baseurl?>/login.php">
-  <div class="SearchItem"><?php echo $lang["username"]?><br/><input type="text" name="username" id="name" class="SearchWidth" /></div>
+      <div class="SearchItem"><?php echo $lang["username"]?><br/><input type="text" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?> name="username" id="name" class="SearchWidth" /></div>
   
-  <div class="SearchItem"><?php echo $lang["password"]?><br/><input type="password" name="password" id="name" class="SearchWidth" /></div>
+  <div class="SearchItem"><?php echo $lang["password"]?><br/><input type="password" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?> name="password" id="name" class="SearchWidth" /></div>
   <div class="SearchItem"><input name="Submit" type="submit" value="&nbsp;&nbsp;<?php echo $lang["login"]?>&nbsp;&nbsp;" /></div>
   </form>
     <p><br/><?php
