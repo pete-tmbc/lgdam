@@ -28,6 +28,28 @@ reset($_POST);reset($_GET);foreach (array_merge($_GET, $_POST) as $key=>$value) 
 # Work out theme name and level, also construct back link
 $link="themes.php?";
 $lastlevelchange=getvalescaped("lastlevelchange",1,true);
+
+/* Set some sane defaults when none provided:
+ * Vulnerability: 44967
+ * Name: CGI Generic Command Execution (time-based)
+ * Type: CGI abuses
+ * Asset Group: Multiple
+ *
+ * /pages/themes.php?lastlevelchange=%20;%20x%20%7C%7C%20sleep%203%20%26 
+ * 
+ * Vulnerability: 43160
+ * Name: CGI Generic SQL Injection (blind, time based)
+ * Type: CGI abuses
+ * 
+ * /pages/themes.php?lastlevelchange='%20AND%200%20IN%20(SELECT%20SLEEP(3))
+%20--%20
+ * 
+ * Source: SureCloud Vulnerability Scan
+ */
+if(!is_numeric($lastlevelchange)) {
+    $lastlevelchange = 1;
+}
+
 $link.="lastlevelchange=" . $lastlevelchange . "&";
 for ($x=0;$x<$themecount;$x++)
 	{

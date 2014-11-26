@@ -250,6 +250,27 @@ $smart_theme=getvalescaped("smart_theme","");
 # When changing higher levels, deselect the lower levels.
 $lastlevelchange=getvalescaped("lastlevelchange",1);
 
+/* Set some sane defaults when none provided:
+ * Vulnerability: 44967
+ * Name: CGI Generic Command Execution (time-based)
+ * Type: CGI abuses
+ * Asset Group: Multiple
+ *
+ * /pages/themes.php?lastlevelchange=%20;%20x%20%7C%7C%20sleep%203%20%26 
+ * 
+ * Vulnerability: 43160
+ * Name: CGI Generic SQL Injection (blind, time based)
+ * Type: CGI abuses
+ * 
+ * /pages/themes.php?lastlevelchange='%20AND%200%20IN%20(SELECT%20SLEEP(3))
+%20--%20
+ * 
+ * Source: SureCloud Vulnerability Scan
+ */
+If(!is_numeric($lastlevelchange)) {
+    $lastlevelchange = 1;
+}
+
 for ($n=$lastlevelchange;$n<=$themecount;$n++){
 	if ($n>$lastlevelchange && !$themes_category_split_pages){
 	$themes[$n-1]="";

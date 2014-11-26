@@ -632,7 +632,20 @@ if (!$basic_simple_search)
 
 	  <h2><?php echo $lang["login"]?></h2>
 
-  
+  <?php
+  /*
+   * Vulnerability: SC-1509
+   * Name: Password Autocomplete
+   * Type: Application
+   * Asset Group: Multiple
+   * 
+   *  URI: /pages/help.php
+   * Other Info: <input type="password" name="password" id="name" class="SearchWidth" />
+   * 
+   * Source: SureCloud
+   * 
+   */
+  ?>
   <form id="form1" method="post" action="<?php echo $baseurl?>/login.php">
       <div class="SearchItem"><?php echo $lang["username"]?><br/><input type="text" <?php if (!$login_autocomplete) { ?>autocomplete="off"<?php } ?> name="username" id="name" class="SearchWidth" /></div>
   

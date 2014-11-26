@@ -240,7 +240,6 @@ else
 	{ 
 	$restypes="";
 	reset($_POST);reset($_GET);foreach (array_merge($_GET, $_POST) as $key=>$value)
-
 		{
 		
 	    $hiddenfields=Array();

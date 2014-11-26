@@ -1493,8 +1493,29 @@ function add_to_collection_link($resource,$search="",$extracode="",$size="")
     {
     # Generates a HTML link for adding a resource to a collection
     global $lang;
+    
+    /* Set some sane defaults when none provided:
+     * 
+     * Vulnerability: 55903
+     * Name: CGI Generic XSS (extended patterns)
+     * Type: CGI abuses : XSS
+     * Asset Group: Multiple
+     * /pages/preview.php?sort=&sort=504%20onerror="alert(504);
+     * /pages/preview.php?order_by=504%20onerror="alert(504);
+     * 
+     * Vulnerability: 49067
+     * Name: CGI Generic HTML Injections (quick test)
+     * Type: CGI abuses : XSS
+     *  Asset Group: Multiple
+     * /pages/preview.php?sort=<"jfunqd%20>
+     * /pages/preview.php?order_by=<"jfunqd%20>
+     * 
+     * Source: SureCloud Vulnerability Scan
+    */
+    $filteredURL = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
+    $currPageURL = strtok($filteredURL,'?');
 
-    return "<a class=\"addToCollection\" href=\"#\" title=\"" . $lang["addtocurrentcollection"] . "\" onClick=\"AddResourceToCollection(event,'" . $resource . "','" . $size . "');" . $extracode . "return false;\">";
+    return "<a class=\"addToCollection\" href=\"" . $currPageURL . "#\" title=\"" . $lang["addtocurrentcollection"] . "\" onClick=\"AddResourceToCollection(event,'" . $resource . "','" . $size . "');" . $extracode . "return false;\">";
 
     }
 }
@@ -1504,8 +1525,28 @@ function remove_from_collection_link($resource,$search="")
     {
     # Generates a HTML link for removing a resource to a collection
     global $lang, $pagename;
+    /* Set some sane defaults when none provided:
+     * 
+     * Vulnerability: 55903
+     * Name: CGI Generic XSS (extended patterns)
+     * Type: CGI abuses : XSS
+     * Asset Group: Multiple
+     * /pages/preview.php?sort=&sort=504%20onerror="alert(504);
+     * /pages/preview.php?order_by=504%20onerror="alert(504);
+     * 
+     * Vulnerability: 49067
+     * Name: CGI Generic HTML Injections (quick test)
+     * Type: CGI abuses : XSS
+     *  Asset Group: Multiple
+     * /pages/preview.php?sort=<"jfunqd%20>
+     * /pages/preview.php?order_by=<"jfunqd%20>
+     * 
+     * Source: SureCloud Vulnerability Scan
+    */
+    $filteredURL = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
+    $currPageURL = strtok($filteredURL,'?');
 
-    return "<a class=\"removeFromCollection\" href=\"#\" title=\"" . $lang["removefromcurrentcollection"] . "\" onClick=\"RemoveResourceFromCollection(new Event('click'),'" . $resource . "','" . $pagename . "');return false;\">";
+    return "<a class=\"removeFromCollection\" href=\"" . $currPageURL . "#\" title=\"" . $lang["removefromcurrentcollection"] . "\" onClick=\"RemoveResourceFromCollection(new Event('click'),'" . $resource . "','" . $pagename . "');return false;\">";
 
     }
 }

@@ -3772,7 +3772,7 @@ function is_html($string)
 {
   return preg_match("/<[^<]+>/",$string,$m) != 0;
 }
-
+    
 function rs_setcookie($name, $value, $daysexpire = 0, $path = "", $domain = "", $secure = false, $httponly = true)
     {
     # Note! The argument $daysexpire is not the same as the argument $expire in the PHP internal function setcookie.
@@ -3781,7 +3781,19 @@ function rs_setcookie($name, $value, $daysexpire = 0, $path = "", $domain = "", 
     global $baseurl_short, $global_cookies;
     if ($daysexpire==0) {$expire = 0;}
     else {$expire = time() + (3600*24*$daysexpire);}
-
+    
+    /* Set some sane defaults when none provided:
+     * Vulnerability: SC-1628
+     * Name: SSL cookie without secure flag set
+     * Type: Web Servers
+     * Asset Group: Multiple
+     * 
+     * Source: SureCloud Vulnerability Scan
+ */
+    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+        $secure = true;
+    }
+    
     if ($global_cookies)
         {
         # Remove previously set cookies to avoid clashes
