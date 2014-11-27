@@ -3790,10 +3790,23 @@ function rs_setcookie($name, $value, $daysexpire = 0, $path = "", $domain = "", 
      * 
      * Source: SureCloud Vulnerability Scan
  */
-    if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
+    // https://bugs.php.net/bug.php?id=49184
+    // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=730094
+    if (filter_has_var(INPUT_SERVER, "HTTPS")) {
+        $is_secure_conn = filter_input(INPUT_SERVER, "HTTPS",
+                FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+    } else {
+        if (isset($_SERVER["HTTPS"]))
+            $is_secure_conn = filter_var($_SERVER["HTTPS"],
+                    FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+        else
+            $is_secure_conn = null;
+    }
+
+    if ($is_secure_conn != null || $is_secure_conn != 'off') {
         $secure = true;
     }
-    
+   
     if ($global_cookies)
         {
         # Remove previously set cookies to avoid clashes

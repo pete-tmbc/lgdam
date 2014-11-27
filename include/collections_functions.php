@@ -1543,7 +1543,19 @@ function remove_from_collection_link($resource,$search="")
      * 
      * Source: SureCloud Vulnerability Scan
     */
-    $filteredURL = filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING);
+    // https://bugs.php.net/bug.php?id=49184
+    // https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=730094
+    if (filter_has_var(INPUT_SERVER, "REQUEST_URI")) {
+        $filteredURL = filter_input(INPUT_SERVER, "REQUEST_URI",
+                FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+    } else {
+        if (isset($_SERVER["REQUEST_URI"]))
+            $filteredURL = filter_var($_SERVER["REQUEST_URI"],
+                    FILTER_SANITIZE_STRING, FILTER_NULL_ON_FAILURE);
+        else
+            $filteredURL = null;
+    }
+
     $currPageURL = strtok($filteredURL,'?');
 
     return "<a class=\"removeFromCollection\" href=\"" . $currPageURL . "#\" title=\"" . $lang["removefromcurrentcollection"] . "\" onClick=\"RemoveResourceFromCollection(new Event('click'),'" . $resource . "','" . $pagename . "');return false;\">";
