@@ -3803,7 +3803,7 @@ function rs_setcookie($name, $value, $daysexpire = 0, $path = "", $domain = "", 
             $is_secure_conn = null;
     }
 
-    if ($is_secure_conn != null || $is_secure_conn != 'off') {
+    if ($is_secure_conn != null && $is_secure_conn != 'off') {
         $secure = true;
     }
    
